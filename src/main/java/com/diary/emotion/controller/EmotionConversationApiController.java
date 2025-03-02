@@ -1,26 +1,22 @@
 package com.diary.emotion.controller;
 
 import com.diary.emotion.domain.EmotionConversation;
-import com.diary.emotion.dto.EmotionConversation.AddEmotionConversationRequest;
-import com.diary.emotion.repository.EmotionConversationRepository;
+import com.diary.emotion.dto.emotionConversation.AddEmotionConversationRequest;
+import com.diary.emotion.dto.emotionConversation.EmotionConversationResponse;
 import com.diary.emotion.service.EmotionConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/emotionConversation")
+@RequestMapping("/api")
 public class EmotionConversationApiController {
 
     private final EmotionConversationService emotionConversationService;
 
-
-    @PostMapping("/user")
-    public ResponseEntity<EmotionConversation> updateConversation(@RequestBody AddEmotionConversationRequest request) {
+    @PostMapping("/emotionConversation")
+    public ResponseEntity<EmotionConversationResponse> updateConversation(@RequestBody AddEmotionConversationRequest request) {
         String userEmail = request.getUserEmail();
         String date = request.getDate();
         String userMessage = request.getUserMessage();
@@ -30,12 +26,24 @@ public class EmotionConversationApiController {
         emotionConversationService.create(userEmail, date);
         EmotionConversation emotionConversation = emotionConversationService.findByUserEmailAndDate(userEmail, date);
 
-        emotionConversationService.addUserConversation(emotionConversation, userMessage);
-        emotionConversationService.addAssistantConversation(emotionConversation, assistantMessage);
+        emotionConversation = emotionConversationService.addUserConversation(emotionConversation, userMessage);
+        emotionConversation = emotionConversationService.addAssistantConversation(emotionConversation, assistantMessage);
 
-        return ResponseEntity.ok()
-                .body(emotionConversation);
+        EmotionConversationResponse response = new EmotionConversationResponse(emotionConversation.getUserConversation(), emotionConversation.getAssistantConversation());
+        return ResponseEntity.status(201)
+                .body(response);
     }
 
+    @PostMapping("/emotionConversation/conversation")
+    public ResponseEntity<EmotionConversationResponse> getConversation(@RequestBody AddEmotionConversationRequest request) {
+        String userEmail = request.getUserEmail();
+        String date = request.getDate();
+        EmotionConversation emotionConversation = emotionConversationService.findByUserEmailAndDate(userEmail, date);
+
+        EmotionConversationResponse response = new EmotionConversationResponse(emotionConversation.getUserConversation(), emotionConversation.getAssistantConversation());
+
+        return ResponseEntity.ok()
+                .body(response);
+    }
 
 }

@@ -28,14 +28,15 @@ public class EmotionConversationService {
         }
     }
 
-    public void addUserConversation(EmotionConversation emotionConversation, String userMessage) {
+    public EmotionConversation addUserConversation(EmotionConversation emotionConversation, String userMessage) {
         EmotionConversation updatedConversation = emotionConversation.addUserConversation(userMessage);
-        emotionConversationRepository.save(updatedConversation);
+        return emotionConversationRepository.save(updatedConversation);
+
     }
 
-    public void addAssistantConversation(EmotionConversation emotionConversation, String assistantMessage) {
+    public EmotionConversation addAssistantConversation(EmotionConversation emotionConversation, String assistantMessage) {
         EmotionConversation updatedConversation = emotionConversation.addAssistantConversation(assistantMessage);
-        emotionConversationRepository.save(updatedConversation);
+        return emotionConversationRepository.save(updatedConversation);
     }
 
     public EmotionConversation getEmotionConversation(String userEmail, String date) {
