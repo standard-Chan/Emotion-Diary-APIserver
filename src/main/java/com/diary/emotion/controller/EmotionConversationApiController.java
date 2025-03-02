@@ -1,6 +1,7 @@
 package com.diary.emotion.controller;
 
 import com.diary.emotion.domain.EmotionConversation;
+import com.diary.emotion.dto.UserAndDateRequest;
 import com.diary.emotion.dto.emotionConversation.AddEmotionConversationRequest;
 import com.diary.emotion.dto.emotionConversation.EmotionConversationResponse;
 import com.diary.emotion.service.EmotionConversationService;
@@ -35,7 +36,7 @@ public class EmotionConversationApiController {
     }
 
     @PostMapping("/emotionConversation/conversation")
-    public ResponseEntity<EmotionConversationResponse> getConversation(@RequestBody AddEmotionConversationRequest request) {
+    public ResponseEntity<EmotionConversationResponse> getConversation(@RequestBody UserAndDateRequest request) {
         String userEmail = request.getUserEmail();
         String date = request.getDate();
         EmotionConversation emotionConversation = emotionConversationService.findByUserEmailAndDate(userEmail, date);

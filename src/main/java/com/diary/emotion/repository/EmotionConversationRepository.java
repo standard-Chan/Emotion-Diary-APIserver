@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface EmotionConversationRepository extends JpaRepository<EmotionConversation, Long> {
-
     public Optional<EmotionConversation> findByUserEmailAndDate(String userEmail, String Date);
 }
-// 왜 null로 추가가됌??
