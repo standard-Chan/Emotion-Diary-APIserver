@@ -43,10 +43,14 @@ user당 1일 -> 2개의 emotion
 
 
 ---
+## 로그인 인증 구현
+  - [x] user entity
+  - [ ] spring boot security
+    - [ ] AuthenticationManager 구현
+    - [ ] JWT 토큰 생성/검증
+      - key provider signWith 부분 문제가 발생함.
 
-해야할일
-- [ ] 빌드 이후 리액트와 연동
+---
+
+- [ ] 빌드 이후 리액트 js 구현
   - js axios 수정
-- [ ] 로그인 인증 구현
-  - user entity
-  - spring boot security
