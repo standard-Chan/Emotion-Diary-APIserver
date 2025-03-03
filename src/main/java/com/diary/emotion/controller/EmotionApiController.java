@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -38,7 +42,7 @@ public class EmotionApiController {
     }
 
     @PostMapping("/emotions/day")
-    public ResponseEntity<EmotionResponse> createEmotions (@RequestBody UserAndDateRequest request) {
+    public ResponseEntity<EmotionResponse> getDayEmotions (@RequestBody UserAndDateRequest request) {
         Emotion emotion = emotionService.findByUserEmailAndDate(request.getUserEmail(), request.getDate());
 
         EmotionResponse emotionResponse = EmotionResponse.builder()
@@ -53,6 +57,22 @@ public class EmotionApiController {
                 .body(emotionResponse);
     }
 
+    @PostMapping("/emotions/month")
+    public ResponseEntity<List<EmotionResponse>> getMonthEmotion (@RequestBody UserAndDateRequest request) {
+        String yearMonth = request.getDate().substring(0, 6); // 202503 추출 <- 202050302
+        String userEmail = request.getUserEmail();
 
+        ArrayList<Emotion> emotionList = emotionService.findByDateStartingWithAndUserEmail(yearMonth, userEmail);
+        List<EmotionResponse> emotions = emotionList.stream()
+                .map(emotion -> new EmotionResponse(
+                        emotion.getUserEmail(),
+                        emotion.getDate(),
+                        emotion.getEmotions(),
+                        emotion.getReasons(),
+                        emotion.getScores()
+                ))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(emotions);
+    }
 
 }

@@ -19,7 +19,7 @@ public class Emotion {
     private String userEmail;
 
     @Column(nullable = false)
-    private String date;
+    private String date;    // ex 20250301
 
     private ArrayList<String> emotions;
 
