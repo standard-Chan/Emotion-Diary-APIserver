@@ -16,7 +16,8 @@ public class EmotionConversationApiController {
 
     private final EmotionConversationService emotionConversationService;
 
-    @PostMapping("/emotionConversation")
+    // emotion 대화 전송
+    @PostMapping("/emotion/conversation")
     public ResponseEntity<EmotionConversationResponse> updateConversation(@RequestBody AddEmotionConversationRequest request) {
         String userEmail = request.getUserEmail();
         String date = request.getDate();
@@ -35,7 +36,8 @@ public class EmotionConversationApiController {
                 .body(response);
     }
 
-    @PostMapping("/emotionConversation/conversation")
+    // 대화 내역 요청
+    @PostMapping("/emotion/conversation/list")
     public ResponseEntity<EmotionConversationResponse> getConversation(@RequestBody UserAndDateRequest request) {
         String userEmail = request.getUserEmail();
         String date = request.getDate();

@@ -29,6 +29,10 @@ public class EmotionService {
 
     public Emotion create(String userEmail, String date, ArrayList<String> emotions,
                           ArrayList<String> reasons, ArrayList<Integer> scores) {
+        Optional<Emotion> optionalEmotion = emotionRepository.findByUserEmailAndDate(userEmail, date);
+        if (optionalEmotion.isPresent()) {
+            throw new IllegalArgumentException("[ERROR] : 해당 날짜에 emotion이 존재하여 생성하지 않습니다. ");
+        }
         Emotion emotion = Emotion.builder()
                 .userEmail(userEmail)
                 .date(date)
