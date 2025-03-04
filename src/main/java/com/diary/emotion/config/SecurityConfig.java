@@ -23,7 +23,8 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/user/signup", "/api/user/login", "/h2-console/**", "/**").permitAll()
+                .requestMatchers("/test","/api/user/signup", "/api/user/login", "/h2-console/**", "/h2-console").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()  // 기본 로그인 폼 비활성화
                 .httpBasic().disable()
