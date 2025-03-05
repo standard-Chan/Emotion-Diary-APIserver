@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/emotion")
 public class EmotionApiController {
 
     private final EmotionService emotionService;
 
-    @PostMapping("/emotions")
+    @PostMapping("/result")
     public ResponseEntity<EmotionResponse> createEmotions (@RequestBody AddEmotionRequest request) {
         emotionService.create(request.getUserEmail(), request.getDate(), request.getEmotions(), request.getReasons(), request.getScores());
 
@@ -38,7 +38,7 @@ public class EmotionApiController {
                 .body(emotionResponse);
     }
 
-    @GetMapping("/emotions/day")
+    @GetMapping("/result/day")
     public ResponseEntity<EmotionResponse> getDayEmotions (@RequestParam String email, @RequestParam String date) {
         Emotion emotion = emotionService.findByUserEmailAndDate(email, date);
 
@@ -54,7 +54,7 @@ public class EmotionApiController {
                 .body(emotionResponse);
     }
 
-    @GetMapping("/emotions/month")
+    @GetMapping("/result/month")
     public ResponseEntity<List<EmotionResponse>> getMonthEmotion (@RequestParam String email, @RequestParam String date) {
         String yearMonth = date.substring(0, 6); // 202503 추출 <- 202050302
         String userEmail = email;

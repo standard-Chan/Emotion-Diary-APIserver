@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/emotion")
 public class EmotionConversationApiController {
 
     private final EmotionConversationService emotionConversationService;
 
     // emotion 대화 전송
-    @PostMapping("/emotion/conversation")
+    @PostMapping("/conversation")
     public ResponseEntity<EmotionConversationResponse> updateConversation(@RequestBody AddEmotionConversationRequest request) {
         String userEmail = request.getUserEmail();
         String date = request.getDate();
@@ -37,11 +37,9 @@ public class EmotionConversationApiController {
     }
 
     // 대화 내역 요청
-    @PostMapping("/emotion/conversation/list")
-    public ResponseEntity<EmotionConversationResponse> getConversation(@RequestBody UserAndDateRequest request) {
-        String userEmail = request.getUserEmail();
-        String date = request.getDate();
-        EmotionConversation emotionConversation = emotionConversationService.findByUserEmailAndDate(userEmail, date);
+    @GetMapping("/conversation")
+    public ResponseEntity<EmotionConversationResponse> getConversation(@RequestParam String email, @RequestParam String date) {
+        EmotionConversation emotionConversation = emotionConversationService.findByUserEmailAndDate(email, date);
 
         EmotionConversationResponse response = new EmotionConversationResponse(emotionConversation.getUserConversation(), emotionConversation.getAssistantConversation());
 
