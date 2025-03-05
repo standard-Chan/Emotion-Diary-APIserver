@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class AddEmotionRequest {
     private String userEmail;
     private String date;
+    private String advice;
     private ArrayList<String> emotions;
     private ArrayList<String> reasons;
     private ArrayList<Integer> scores;

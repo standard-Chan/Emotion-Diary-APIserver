@@ -23,9 +23,9 @@ public class EmotionConversationApiController {
         String date = request.getDate();
         String userMessage = request.getUserMessage();
         String assistantMessage = request.getAssistantMessage();
-
         // 새로 생성 (없을 경우에만 실행됨)
         emotionConversationService.create(userEmail, date);
+
         EmotionConversation emotionConversation = emotionConversationService.findByUserEmailAndDate(userEmail, date);
 
         emotionConversation = emotionConversationService.addUserConversation(emotionConversation, userMessage);
@@ -39,6 +39,9 @@ public class EmotionConversationApiController {
     // 대화 내역 요청
     @GetMapping("/conversation")
     public ResponseEntity<EmotionConversationResponse> getConversation(@RequestParam String email, @RequestParam String date) {
+        // 새로 생성 (없을 경우에만 실행됨)
+        emotionConversationService.create(email, date);
+
         EmotionConversation emotionConversation = emotionConversationService.findByUserEmailAndDate(email, date);
 
         EmotionConversationResponse response = new EmotionConversationResponse(emotionConversation.getUserConversation(), emotionConversation.getAssistantConversation());

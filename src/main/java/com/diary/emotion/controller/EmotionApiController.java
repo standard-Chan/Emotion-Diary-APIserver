@@ -24,11 +24,12 @@ public class EmotionApiController {
 
     @PostMapping("/result")
     public ResponseEntity<EmotionResponse> createEmotions (@RequestBody AddEmotionRequest request) {
-        emotionService.create(request.getUserEmail(), request.getDate(), request.getEmotions(), request.getReasons(), request.getScores());
+        emotionService.create(request.getUserEmail(), request.getDate(), request.getAdvice(), request.getEmotions(), request.getReasons(), request.getScores());
 
         EmotionResponse emotionResponse = EmotionResponse.builder()
                 .userEmail(request.getUserEmail())
                 .date(request.getDate())
+                .advice(request.getAdvice())
                 .emotions(request.getEmotions())
                 .reasons(request.getReasons())
                 .scores(request.getScores())
@@ -45,6 +46,7 @@ public class EmotionApiController {
         EmotionResponse emotionResponse = EmotionResponse.builder()
                 .userEmail(emotion.getUserEmail())
                 .date(emotion.getDate())
+                .advice(emotion.getAdvice())
                 .emotions(emotion.getEmotions())
                 .reasons(emotion.getReasons())
                 .scores(emotion.getScores())
@@ -64,6 +66,7 @@ public class EmotionApiController {
                 .map(emotion -> new EmotionResponse(
                         emotion.getUserEmail(),
                         emotion.getDate(),
+                        emotion.getAdvice(),
                         emotion.getEmotions(),
                         emotion.getReasons(),
                         emotion.getScores()

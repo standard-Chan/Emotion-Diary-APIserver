@@ -27,7 +27,7 @@ public class EmotionService {
 
     }
 
-    public Emotion create(String userEmail, String date, ArrayList<String> emotions,
+    public Emotion create(String userEmail, String date, String advice, ArrayList<String> emotions,
                           ArrayList<String> reasons, ArrayList<Integer> scores) {
         Optional<Emotion> optionalEmotion = emotionRepository.findByUserEmailAndDate(userEmail, date);
         if (optionalEmotion.isPresent()) {
@@ -36,6 +36,7 @@ public class EmotionService {
         Emotion emotion = Emotion.builder()
                 .userEmail(userEmail)
                 .date(date)
+                .advice(advice)
                 .emotions(emotions)
                 .reasons(reasons)
                 .scores(scores)
