@@ -21,14 +21,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
+                //.cors(cors -> cors.and())  // CORS 설정 추가
+                .csrf(csrf -> csrf.disable())       // CSRF 비활성화
                 .authorizeHttpRequests()
-                .requestMatchers("/test","/api/user/signup", "/api/user/login", "/h2-console/**", "/h2-console").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/test","/api/user/signup", "/api/user/login", "/h2-console/**", "/h2-console", "/**").permitAll()
+                //.anyRequest().authenticated()
                 .and()
                 .formLogin().disable()  // 기본 로그인 폼 비활성화
                 .httpBasic().disable()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)  // JWT 인증 필터 추가
+                //.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)  // JWT 인증 필터 추가
                 .headers().frameOptions().sameOrigin() // 프레임 옵션 설정 (h2 접속을 위함)
                 .and()
                 .build();

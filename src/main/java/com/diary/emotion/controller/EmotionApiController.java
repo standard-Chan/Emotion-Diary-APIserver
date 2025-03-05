@@ -8,10 +8,7 @@ import com.diary.emotion.repository.EmotionRepository;
 import com.diary.emotion.service.EmotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +38,9 @@ public class EmotionApiController {
                 .body(emotionResponse);
     }
 
-    @PostMapping("/emotions/day")
-    public ResponseEntity<EmotionResponse> getDayEmotions (@RequestBody UserAndDateRequest request) {
-        Emotion emotion = emotionService.findByUserEmailAndDate(request.getUserEmail(), request.getDate());
+    @GetMapping("/emotions/day")
+    public ResponseEntity<EmotionResponse> getDayEmotions (@RequestParam String email, @RequestParam String date) {
+        Emotion emotion = emotionService.findByUserEmailAndDate(email, date);
 
         EmotionResponse emotionResponse = EmotionResponse.builder()
                 .userEmail(emotion.getUserEmail())
@@ -57,10 +54,10 @@ public class EmotionApiController {
                 .body(emotionResponse);
     }
 
-    @PostMapping("/emotions/month")
-    public ResponseEntity<List<EmotionResponse>> getMonthEmotion (@RequestBody UserAndDateRequest request) {
-        String yearMonth = request.getDate().substring(0, 6); // 202503 추출 <- 202050302
-        String userEmail = request.getUserEmail();
+    @GetMapping("/emotions/month")
+    public ResponseEntity<List<EmotionResponse>> getMonthEmotion (@RequestParam String email, @RequestParam String date) {
+        String yearMonth = date.substring(0, 6); // 202503 추출 <- 202050302
+        String userEmail = email;
 
         ArrayList<Emotion> emotionList = emotionService.findByDateStartingWithAndUserEmail(yearMonth, userEmail);
         List<EmotionResponse> emotions = emotionList.stream()
