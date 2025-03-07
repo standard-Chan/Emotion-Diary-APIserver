@@ -7,6 +7,7 @@ import com.diary.emotion.dto.emotion.EmotionResponse;
 import com.diary.emotion.repository.EmotionRepository;
 import com.diary.emotion.service.EmotionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

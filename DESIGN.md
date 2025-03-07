@@ -14,6 +14,7 @@ User와 GPT의 대화기록
 > - assistant_conversation (ArrayList)
 - ID : user 당 1일 1회 => id는 user와 date
 - 메세지를 대상으로 검색하지 않으므로 message 배열을 JSON으로 바로 저장
+- 대화는 항상 한번에 불러오므로 배열로 저장하는게 효율적이라고 판단.
 - user의 질문과 assistant(GPT)응답 발화자 별로 별도로 저장. 
 
 
